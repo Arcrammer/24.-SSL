@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>(1-4) Validating User Input </title>
+    <style>
+      body {
+        font-family: "Verdana";
+        font-size: 1em;
+        padding: 1.5% 15%;
+      }
+      h4 {
+        font-family: "Helvetica Neue";
+        font-size: 1.2em;
+        font-weight: 300;
+        letter-spacing: 0.75px;
+      }
+      p {
+        color: red;
+      }
+      input:not(:last-of-type) {
+        font-family: "Georgia";
+        font-style: italic;
+        font-size: 1em;
+        margin: 2.5% auto auto 2.5%;
+        padding: 1.25% 0.75%;
+        width: 250px;
+      }
+      input:last-of-type {
+        background-color: #4CD964;
+        border: 0;
+        border-radius: 35px;
+        color: #fff;
+        cursor: pointer;
+        display: block;
+        font-size: 0.85em;
+        letter-spacing: 0.85px;
+        margin-top: 5%;
+        margin-left: 20%;
+        padding: 1.5% 2.5%;
+        text-transform: uppercase;
+        transition: background-color 175ms;
+      }
+      input:last-of-type:hover {
+        background-color: #61E878;
+      }
+      input:last-of-type:active {
+        background-color: #398A47;
+      }
+    </style>
+  </head>
+  <body>
+    <p id="warning-message">You're missing something...</p>
+    <form method="post" action="activity1-5.php">
+      <label for="school_email">School Email: </label><input type="email" name="school_email" id="school_email" value="Arcrammer@fullsail.edu"><br />
+      <label for="personal_email">Personal Email: </label><input type="email" name="personal_email" id="personal_email" value="Alexander247914@gmail.com"><br />
+      <input type="submit" value="Validate">
+    </form>
+    <!-- Scripts -->
+    <script>
+      // If the form is submitted without data we'll alert the user that they're missing data by using
+      // the query string which is altered by a redirecton upon failure in the preprocessor
+      if (location.search.split("=")[1] == "true") {
+        document.getElementById("warning-message").style.display = "block";
+      } else {
+        document.getElementById("warning-message").style.display = "none";
+      }
+    </script>
+  </body>
+</html>
