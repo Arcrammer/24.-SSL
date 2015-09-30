@@ -2,6 +2,52 @@
 <html>
   <head>
     <title>ANALYZE, DESIGN! Form Processing</title>
+    <style>
+      body {
+        font-family: "Verdana";
+        font-size: 1em;
+        padding: 1.5% 15%;
+      }
+      h4 {
+        font-family: "Helvetica Neue";
+        font-size: 1.2em;
+        font-weight: 300;
+        letter-spacing: 0.75px;
+      }
+      p {
+        color: red;
+      }
+      input:not(:last-of-type) {
+        font-family: "Georgia";
+        font-style: italic;
+        font-size: 1em;
+        margin: 2.5% auto auto 2.5%;
+        padding: 1.25% 0.75%;
+        text-indent: 12.5px;
+        width: 250px;
+      }
+      input:last-of-type {
+        background-color: #4CD964;
+        border: 0;
+        border-radius: 35px;
+        color: #fff;
+        cursor: pointer;
+        display: block;
+        font-size: 0.85em;
+        letter-spacing: 0.85px;
+        margin-top: 5%;
+        margin-left: 20%;
+        padding: 1.5% 2.5%;
+        text-transform: uppercase;
+        transition: background-color 175ms;
+      }
+      input:last-of-type:hover {
+        background-color: #61E878;
+      }
+      input:last-of-type:active {
+        background-color: #398A47;
+      }
+    </style>
   </head>
   <body>
     <form enctype="multipart/form-data" method="post" action="newuser.php">
