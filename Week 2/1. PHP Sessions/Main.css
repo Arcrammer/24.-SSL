@@ -1,0 +1,40 @@
+  /*  Main.css
+   *  PHP Sessions
+   *  Server-Side Languages
+   *  Full Sail University
+   *  
+   *  Alexander Rhett Crammer
+   *  Friday, 2 October, 2015  */
+
+body {
+  font-family: "Verdana";
+  font-size: 1em;
+  padding: 1.5% 15%;
+}
+
+h4 {
+  font-family: "Helvetica Neue";
+  font-size: 1.2em;
+  font-weight: 300;
+  letter-spacing: 0.75px;
+}
+
+pre {
+  background-color: #F7FBFF;
+  padding: 2.5% 3.5%;
+}
+
+a {
+  color: #ec008c;
+  font-family: "Helvetica Neue";
+  text-decoration: none;
+}
+
+a:hover {
+  color: #FF0097;
+  font-style: italic;
+}
+
+a:active {
+  color: #A20C65;
+}
