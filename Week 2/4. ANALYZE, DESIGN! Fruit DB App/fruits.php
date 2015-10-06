@@ -12,85 +12,26 @@
  * SQLite3 database (Stored in
  * the file 'SSL.db' within this
  * directory) by simply setting
- * your preference below
+ * your preference at the top
+ * of 'DDI.php'! There are more
+ * details over there. It's the
+ * first statement.
  */
 
-// Choose a database to use. The default is MySQL, although you can choose "SQLite", also
-$preferred_DBMS = "MySQL"; // The default is MySQL because that's what this assignment assumes
+// This script contains a class called 'DDI()'
+// which interacts with the database for us
+include "ddi.php";
 
-// Attempt to save memory by storing the PDO object here for use later
-// (I don't know if this helps but I'm having so much fun! Sorry if
-// I'm being annoying with my exceedingly large and overboard script.)
-$database = NULL;
-
-// Make future comparison easier
-$preferred_DBMS = strtolower($preferred_DBMS);
-
-// Set the $database based on which was preferred
-($preferred_DBMS == "mysql") ? openMySQLConnection() : openSQLiteConnection(); // See the docstring for these functions. They're just a few lines down!
+// Create an instance of the class to interact with the database
+$database = new DDI($preferred_DBMS);
 
 // Attempt to create a new fruit record upon form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["fruit_name"] != NULL && $_POST["fruit_colour"] != NULL) {
-  // Prepare a statement for insertion of the new fruit data
-  $fruit_insertion_query = $database->prepare("INSERT INTO fruits (name, colour) VALUES (:name, :colour)");
-  
-  // Bind the parameters to the prepared statement
-  $fruit_insertion_query->bindParam(":name", $_POST["fruit_name"]);
-  $fruit_insertion_query->bindParam(":colour", $_POST["fruit_colour"]);
-  
-   // Execute the query
-  $fruit_insertion_query->execute();
+  $database->addFruit($_POST["fruit_name"], $_POST["fruit_colour"]);
 }
 
 // Fetch the fruit data
-$fruit = $database->query("SELECT id, name, colour FROM fruits")->fetchAll(PDO::FETCH_NUM);
-
-// Fortunately PHP allows the definition of functions before they're called!
-function openMySQLConnection() {
-  /* 
-   * Attempt to open a connection to the MySQL database returning 'TRUE' in the
-   * event the connection goes without error, or telling the developer about
-   * what went wrong and return 'FALSE' if the connection fails for some reason
-   */
-  try {
-    // Load the secret database credentials from a file  which is private and
-    // only visible to the machine (Only necessary for MySQL -- Not SQLite)
-    $config = parse_ini_file("/etc/config.ini");
-    
-    // Create a PDO object to interact with the MySQL database
-    $mysql_database = new PDO("mysql:host=127.0.0.1;dbname=SSL", $config["username"], $config["password"]);
-    
-    // Put the PDO object in the scope one level
-    // higher so other objects can use it later
-    $GLOBALS["database"] = $mysql_database;
-    return TRUE; // The PDO object was created without error
-  } catch (PDOException $problem) {
-    // There was a problem connecting to the MySQL database; Alert the dev with a friendly message if it's possible
-    echo "<b>MySQL Problem:</b> " . $problem->getMessage();
-    return FALSE; // There was a problem connecting
-  }
-}
-
-function openSQLiteConnection() {
-  /* 
-   * Attempt to open a connection to the SQLite database returning 'TRUE' in the
-   * event the connection goes without error, or telling the developer about
-   * what went wrong and return 'FALSE' if the connection fails for some reason
-   */
-  try {
-    // Create a PDO object to interact with the SQLite database
-    $sqlite_database = new PDO("sqlite:SSL.db");
-    
-    // Put the PDO object in the scope one level
-    // higher so other objects can use it
-    $GLOBALS["database"] = $sqlite_database;
-    return TRUE; // The PDO object was created without error
-  } catch (PDOException $problem) {
-    // There was a problem connecting to the SQLite database; Alert the dev with a friendly message if it's possible
-    echo "<b>SQLite Problem:</b> " . $problem->getMessage();
-    return FALSE; // There was a problem connecting
-  }
-}
+$fruit = $database->fruit;
 ?>
 <!DOCTYPE html>
 <html>
@@ -107,6 +48,13 @@ function openSQLiteConnection() {
       label {
         color: #272727;
         letter-spacing: 0.35px;
+      }
+      p:first-of-type {
+        font-family: "Helvetica Neue", "Helvetica", sans-serif;
+        font-size: 0.85em;
+        letter-spacing: 0.75px;
+        margin-top: 3.5%;
+        text-align: center;
       }
       form {
         margin: auto;
@@ -164,25 +112,40 @@ function openSQLiteConnection() {
       tr:nth-child(2n) {
         background-color: lightcyan;
       }
+      a {
+        color: #ec008c;
+        font-family: "Helvetica Neue";
+        text-decoration: none;
+      }
+      a:hover {
+        color: #FF0097;
+        font-style: italic;
+      }
+      a:active {
+        color: #A20C65;
+      }
     </style>
   </head>
   <body>
     <form method="post">
-      <label for="fruit_name">Name:</label><input name="fruit_name" id="fruit_name" placeholder="Apple"><br />
-      <label for="fruit_colour">Colour:</label><input name="fruit_colour" id="fruit_colour" placeholder="Red"><br />
+      <label for="fruit_name">Name:</label><input name="fruit_name" id="fruit_name" placeholder="Apple" autocomplete="off" required><br />
+      <label for="fruit_colour">Colour:</label><input name="fruit_colour" id="fruit_colour" placeholder="Red"  autocomplete="off" required><br />
       <input type="submit" value="Create">
     </form>
+    <p>DBMS: <?= $database->preferred_DBMS ?></p>
     <table>
       <tr>
         <th>#</th>
         <th>Name</th>
         <th>Colour</th>
+        <th>Manage</th>
       </tr>
       <?php foreach ($fruit as $single_fruit): ?>
       <tr>
         <td><?= $single_fruit[0] ?></td>
         <td><?= $single_fruit[1] ?></td>
         <td><?= $single_fruit[2] ?></td>
+        <td><a href="deletefruit.php?id=<?= $single_fruit[0] ?>">Delete</a></td>
       </tr>
       <?php endforeach ?>
     </table>
