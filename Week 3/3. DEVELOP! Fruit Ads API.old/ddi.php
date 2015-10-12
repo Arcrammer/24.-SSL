@@ -43,14 +43,13 @@ class DDI extends PDO {
   }
   
   /* Creating Records in the Databases */
-  function addFruit($fruit_name, $fruit_colour, $fruit_image) {
+  function addFruit($fruit_name, $fruit_colour) {
     // Prepare a statement for insertion of the new fruit data
-    $fruit_insertion_query = $this->database->prepare("INSERT INTO fruits (name, colour, image) VALUES (:name, :colour, :image)");
+    $fruit_insertion_query = $this->database->prepare("INSERT INTO fruits (name, colour) VALUES (:name, :colour)");
     
     // Bind the parameters to the prepared statement
     $fruit_insertion_query->bindParam(":name", $fruit_name);
     $fruit_insertion_query->bindParam(":colour", $fruit_colour);
-    $fruit_insertion_query->bindParam(":image", $fruit_image);
     
      // Execute the query; Return a boolean to represent success or failure
     return $fruit_insertion_query->execute();

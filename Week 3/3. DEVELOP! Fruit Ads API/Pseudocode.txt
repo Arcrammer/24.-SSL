@@ -1,0 +1,19 @@
+Create new column in the database to hold paths to fruit images
+
+Write the image paths to the new columns’ values coordinated by fruit name
+
+Create a fruit record which has the colour ‘yellow’
+
+Find two separate types of apple and add them to the database
+
+Make CRUD functionality
+
+Fetch all fruits from the database and note how long the query took to execute
+
+Fetch fruits based on more specific properties, note the execution time necessary, and compare it to the first noted query execution time from the past step
+
+Fetch fruits whose names begin with the characters ‘apple’ then sort them by their names and limit the result set to two records and compare the execution time to the past noted query execution times
+
+Create fruitget.php
+
+Create ads.php

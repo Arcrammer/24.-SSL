@@ -1,12 +1,12 @@
 <?php
-  
-  /*  fruitget.php
-   *  ANALYZE, DESIGN! Fruit Ads API
+
+  /*  deletefruit.php
+   *  ANALYZE, DESIGN! Fruit DB App
    *  Server-Side Languages
    *  Full Sail University
    *  
    *  Alexander Rhett Crammer
-   *  Saturday, 10 October, 2015  */
+   *  Tuesday, 6 October, 2015  */
 
 // This script contains a class called 'DDI()'
 // which interacts with the database for us
@@ -15,8 +15,7 @@ include "ddi.php";
 // Create an instance of the class to interact with the database
 $database = new DDI();
 
-// Send the client the appropriate Content-Type value
-header("Content-Type: application/json");
+$database->destroyFruitWithID($_GET["id"]);
 
-// Encode the JSON and send it back to the client
-echo json_encode($database->fruitWithID($_GET["id"]));
+// Send the user to the fruit table
+header("Location: fruitads.php");

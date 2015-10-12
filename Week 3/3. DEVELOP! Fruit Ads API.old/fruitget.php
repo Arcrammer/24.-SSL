@@ -15,8 +15,5 @@ include "ddi.php";
 // Create an instance of the class to interact with the database
 $database = new DDI();
 
-// Send the client the appropriate Content-Type value
-header("Content-Type: application/json");
-
 // Encode the JSON and send it back to the client
 echo json_encode($database->fruitWithID($_GET["id"]));
